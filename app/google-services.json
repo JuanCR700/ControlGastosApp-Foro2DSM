@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "230618514790",
+    "project_id": "controlgastosapp-3fa77",
+    "storage_bucket": "controlgastosapp-3fa77.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230618514790:android:304dd79fb9e9f2984d34a7",
+        "android_client_info": {
+          "package_name": "com.tuapp.gastos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230618514790-bsjqf7the2npa7v2nflg0bg18le7799q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tuapp.gastos",
+            "certificate_hash": "81df67ecd6dfddf8c2c35de682996fcab3c688fd"
+          }
+        },
+        {
+          "client_id": "230618514790-u41s4c7j0hv5jt16kcgn5sp8fq5iio31.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf78JTIuYGnWJfDUfwzRevb-sfZKHEBfA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230618514790-u41s4c7j0hv5jt16kcgn5sp8fq5iio31.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
