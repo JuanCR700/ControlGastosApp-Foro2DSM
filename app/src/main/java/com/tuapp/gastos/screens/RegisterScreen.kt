@@ -4,12 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -24,6 +19,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.auth.FirebaseAuth
+import com.tuapp.gastos.components.AppButton
+import com.tuapp.gastos.components.AppTextField
+import com.tuapp.gastos.components.AuthCard
+import com.tuapp.gastos.components.ScreenContainer
 
 @Composable
 fun RegisterScreen(
@@ -38,91 +37,128 @@ fun RegisterScreen(
     var confirmarContrasena by remember { mutableStateOf("") }
     var cargando by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Crear cuenta",
-            fontSize = 28.sp
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        OutlinedTextField(
-            value = correo,
-            onValueChange = { correo = it },
-            label = { Text("Correo electrónico") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        OutlinedTextField(
-            value = contrasena,
-            onValueChange = { contrasena = it },
-            label = { Text("Contraseña") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        OutlinedTextField(
-            value = confirmarContrasena,
-            onValueChange = { confirmarContrasena = it },
-            label = { Text("Confirmar contraseña") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            onClick = {
-                if (correo.isBlank() || contrasena.isBlank() || confirmarContrasena.isBlank()) {
-                    Toast.makeText(context, "Completa todos los campos", Toast.LENGTH_SHORT).show()
-                    return@Button
-                }
-
-                if (contrasena.length < 6) {
-                    Toast.makeText(context, "La contraseña debe tener mínimo 6 caracteres", Toast.LENGTH_SHORT).show()
-                    return@Button
-                }
-
-                if (contrasena != confirmarContrasena) {
-                    Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
-                    return@Button
-                }
-
-                cargando = true
-
-                auth.createUserWithEmailAndPassword(correo, contrasena)
-                    .addOnSuccessListener {
-                        cargando = false
-                        Toast.makeText(context, "Cuenta creada correctamente", Toast.LENGTH_SHORT).show()
-                        onRegisterSuccess()
-                    }
-                    .addOnFailureListener {
-                        cargando = false
-                        Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_LONG).show()
-                    }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = !cargando
+    ScreenContainer {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(if (cargando) "Creando cuenta..." else "Registrarse")
-        }
+            Spacer(modifier = androidx.compose.ui.Modifier.weight(1f))
 
-        Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = "Crear cuenta",
+                fontSize = 30.sp
+            )
 
-        TextButton(
-            onClick = onGoToLogin
-        ) {
-            Text("Ya tengo cuenta")
+            Spacer(modifier = androidx.compose.ui.Modifier.height(8.dp))
+
+            Text(
+                text = "Regístrate para comenzar a controlar tus gastos"
+            )
+
+            Spacer(modifier = androidx.compose.ui.Modifier.height(24.dp))
+
+            AuthCard {
+                Text(
+                    text = "Registro",
+                    fontSize = 24.sp
+                )
+
+                Spacer(modifier = androidx.compose.ui.Modifier.height(16.dp))
+
+                AppTextField(
+                    value = correo,
+                    onValueChange = { correo = it },
+                    label = "Correo electrónico"
+                )
+
+                Spacer(modifier = androidx.compose.ui.Modifier.height(12.dp))
+
+                AppTextField(
+                    value = contrasena,
+                    onValueChange = { contrasena = it },
+                    label = "Contraseña",
+                    visualTransformation = PasswordVisualTransformation()
+                )
+
+                Spacer(modifier = androidx.compose.ui.Modifier.height(12.dp))
+
+                AppTextField(
+                    value = confirmarContrasena,
+                    onValueChange = { confirmarContrasena = it },
+                    label = "Confirmar contraseña",
+                    visualTransformation = PasswordVisualTransformation()
+                )
+
+                Spacer(modifier = androidx.compose.ui.Modifier.height(20.dp))
+
+                AppButton(
+                    text = if (cargando) "Creando cuenta..." else "Registrarse",
+                    enabled = !cargando,
+                    onClick = {
+                        if (
+                            correo.isBlank() ||
+                            contrasena.isBlank() ||
+                            confirmarContrasena.isBlank()
+                        ) {
+                            Toast.makeText(
+                                context,
+                                "Completa todos los campos",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@AppButton
+                        }
+
+                        if (contrasena.length < 6) {
+                            Toast.makeText(
+                                context,
+                                "La contraseña debe tener mínimo 6 caracteres",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@AppButton
+                        }
+
+                        if (contrasena != confirmarContrasena) {
+                            Toast.makeText(
+                                context,
+                                "Las contraseñas no coinciden",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@AppButton
+                        }
+
+                        cargando = true
+
+                        auth.createUserWithEmailAndPassword(correo, contrasena)
+                            .addOnSuccessListener {
+                                cargando = false
+                                Toast.makeText(
+                                    context,
+                                    "Cuenta creada correctamente",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                onRegisterSuccess()
+                            }
+                            .addOnFailureListener {
+                                cargando = false
+                                Toast.makeText(
+                                    context,
+                                    "Error: ${it.message}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                    }
+                )
+
+                Spacer(modifier = androidx.compose.ui.Modifier.height(8.dp))
+
+                TextButton(
+                    onClick = onGoToLogin
+                ) {
+                    Text("Ya tengo cuenta")
+                }
+            }
+
+            Spacer(modifier = androidx.compose.ui.Modifier.weight(1f))
         }
     }
 }
